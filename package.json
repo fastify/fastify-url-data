@@ -1,0 +1,33 @@
+{
+  "name": "fastify-url-data",
+  "version": "1.0.0",
+  "description": "A Fastify plugin to provide access to URI components",
+  "main": "plugin.js",
+  "scripts": {
+    "test": "tap 'test/**/*.test.js'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/fastify/fastify-url-data.git"
+  },
+  "keywords": [
+    "fastify"
+  ],
+  "author": "James Sumners <james.sumners@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/fastify/fastify-url-data/issues"
+  },
+  "homepage": "https://github.com/fastify/fastify-url-data#readme",
+  "devDependencies": {
+    "fastify": "^0.30.3",
+    "pre-commit": "^1.2.2",
+    "snazzy": "^7.0.0",
+    "standard": "^10.0.3",
+    "tap": "^10.7.2"
+  },
+  "dependencies": {
+    "fastify-plugin": "^0.1.1",
+    "uri-js": "^3.0.2"
+  }
+}
