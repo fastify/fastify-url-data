@@ -4,8 +4,15 @@
   "description": "A Fastify plugin to provide access to URI components",
   "main": "plugin.js",
   "scripts": {
-    "test": "tap 'test/**/*.test.js'"
+    "test": "tap 'test/**/*.test.js'",
+    "test-ci": "tap --cov 'test/**/*.test.js'",
+    "lint": "standard | snazzy",
+    "lint-ci": "standard"
   },
+  "precommit": [
+    "lint",
+    "test"
+  ],
   "repository": {
     "type": "git",
     "url": "git+ssh://git@github.com/fastify/fastify-url-data.git"
