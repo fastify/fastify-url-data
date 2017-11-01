@@ -19,6 +19,9 @@ fastify.get('/foo', (req, reply) => {
   req.log.info(urlData.host) // '127.0.0.1'
   req.log.info(urlData.port) // 8080
 
+  // if you just need single data:
+  req.log.info(req.urlData('path')) // '/foo'
+
   reply.send({hello: 'world'})
 })
 
