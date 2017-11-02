@@ -17,7 +17,7 @@ fastify.listen(0, (err) => {
   const port = fastify.server.address().port
 
   test('parses a full URI', (t) => {
-    t.plan(4)
+    t.plan(8)
 
     fastify.get('/one', (req, reply) => {
       const uriData = req.urlData()
@@ -25,6 +25,10 @@ fastify.listen(0, (err) => {
       t.is(uriData.port, port)
       t.is(uriData.path, '/one')
       t.is(uriData.query, 'a=b&c=d')
+      t.is(req.urlData('host'), '127.0.0.1')
+      t.is(req.urlData('port'), port)
+      t.is(req.urlData('path'), '/one')
+      t.is(req.urlData('query'), 'a=b&c=d')
       reply.send()
     })
 

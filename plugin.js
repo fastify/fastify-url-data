@@ -4,8 +4,10 @@ const fp = require('fastify-plugin')
 const urijs = require('uri-js')
 
 function plugin (fastify, options, next) {
-  fastify.decorateRequest('urlData', function () {
-    return urijs.parse('//' + this.headers.host + this.req.url)
+  fastify.decorateRequest('urlData', function (key) {
+    const urlData = urijs.parse('//' + this.headers.host + this.req.url)
+    if (key) return urlData[key]
+    return urlData
   })
   next()
 }
