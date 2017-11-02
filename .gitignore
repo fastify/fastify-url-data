@@ -1,3 +1,6 @@
+# TypeScript generated test files
+test/types.test.js
+
 # Logs
 logs
 *.log
