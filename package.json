@@ -4,11 +4,13 @@
   "description": "A Fastify plugin to provide access to URI components",
   "main": "plugin.js",
   "scripts": {
-    "test": "tap 'test/**/*.test.js'",
+    "test": "npm run test-ts && tap 'test/**/*.test.js'",
     "test-ci": "tap --cov 'test/**/*.test.js'",
+    "test-ts": "tsc test/types.test.ts --target es6 --module commonjs --noEmit",
     "lint": "standard | snazzy",
     "lint-ci": "standard"
   },
+  "typings": "fastify-url-data.d.ts",
   "precommit": [
     "lint",
     "test"
@@ -31,7 +33,8 @@
     "pre-commit": "^1.2.2",
     "snazzy": "^7.0.0",
     "standard": "^10.0.3",
-    "tap": "^10.7.2"
+    "tap": "^10.7.2",
+    "typescript": "~2.5.3"
   },
   "dependencies": {
     "fastify-plugin": "^0.1.1",
