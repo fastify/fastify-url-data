@@ -12,4 +12,7 @@ function plugin (fastify, options, next) {
   next()
 }
 
-module.exports = fp(plugin, '>=0.15.0')
+module.exports = fp(plugin, {
+  fastify: '>=1.0.0-rc.1',
+  name: 'fastify-url-data'
+})

@@ -27,14 +27,14 @@
   },
   "homepage": "https://github.com/fastify/fastify-url-data#readme",
   "devDependencies": {
-    "fastify": "^0.30.3",
+    "fastify": "^1.0.0-rc.1",
     "pre-commit": "^1.2.2",
     "snazzy": "^7.0.0",
     "standard": "^10.0.3",
-    "tap": "^10.7.2"
+    "tap": "^11.1.0"
   },
   "dependencies": {
-    "fastify-plugin": "^0.1.1",
+    "fastify-plugin": "^0.2.2",
     "uri-js": "^3.0.2"
   }
 }
