@@ -35,8 +35,8 @@ test('parses a full URI', (t) => {
 
     port = fastify.server.address().port
     http
-    .get(`http://127.0.0.1:${port}/one?a=b&c=d#foo`, (res) => {})
-    .on('error', t.threw)
+      .get(`http://127.0.0.1:${port}/one?a=b&c=d#foo`, (res) => {})
+      .on('error', t.threw)
   })
 
   t.tearDown(() => fastify.close())
