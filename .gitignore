@@ -26,8 +26,9 @@ build/Release
 # Dependency directory
 node_modules
 
-# Optional npm cache directory
+# Optional npm cache directory & lockfile
 .npm
+package-lock.json
 
 # Optional REPL history
 .node_repl_history
