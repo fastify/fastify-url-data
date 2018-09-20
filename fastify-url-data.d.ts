@@ -1,13 +1,6 @@
 import { FastifyRequest } from 'fastify';
 import { URIComponents } from 'uri-js'
 
-interface FastifyUrlData {
-  path: string
-  host: string
-  port: number
-  query: string
-}
-
 // Extend FastifyReply with the "fastify-url-data" function
 declare module 'fastify' {
   interface FastifyRequest<HttpRequest> {
