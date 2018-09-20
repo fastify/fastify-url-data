@@ -1,5 +1,5 @@
 import { FastifyRequest } from 'fastify';
-import { UrlObject } from 'url';
+import { URIComponents } from 'uri-js'
 
 interface FastifyUrlData {
   path: string
@@ -11,9 +11,8 @@ interface FastifyUrlData {
 // Extend FastifyReply with the "fastify-url-data" function
 declare module 'fastify' {
   interface FastifyRequest<HttpRequest> {
-    urlData (): UrlObject
-    urlData (target: string): string
-    urlData (target: 'port'): number
+    urlData (): URIComponents
+    urlData <K extends keyof URIComponents>(target: K): URIComponents[K]
   }
 }
 
