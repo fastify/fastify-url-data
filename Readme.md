@@ -32,4 +32,4 @@ fastify.get('/foo', (req, reply) => {
 
 ## License
 
-[MIT License](http://jsumners.mit-license.org/)
+Licensed under [MIT](./LICENSE)
