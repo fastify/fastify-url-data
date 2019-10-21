@@ -5,7 +5,10 @@ const urijs = require('uri-js')
 
 function plugin (fastify, options, next) {
   fastify.decorateRequest('urlData', function (key) {
-    const urlData = urijs.parse('//' + this.headers.host + this.req.url)
+    const scheme = (this.headers[':scheme'] ? this.headers[':scheme'] + ':' : '') + '//'
+    const host = this.headers[':authority'] || this.headers.host
+    const path = this.headers[':path'] || this.req.url
+    const urlData = urijs.parse(scheme + host + path)
     if (key) return urlData[key]
     return urlData
   })
