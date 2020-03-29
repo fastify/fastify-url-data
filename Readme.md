@@ -10,9 +10,7 @@ URL information from the request.
 ```js
 const fastify = require('fastify')()
 
-fastify.register(require('fastify-url-data'), (err) => {
-  if (err) throw err
-})
+fastify.register(require('fastify-url-data'))
 
 fastify.get('/foo', (req, reply) => {
   const urlData = req.urlData()
