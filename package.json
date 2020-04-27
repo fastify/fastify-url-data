@@ -3,11 +3,11 @@
   "version": "2.4.0",
   "description": "A Fastify plugin to provide access to URI components",
   "main": "plugin.js",
-  "typings": "fastify-url-data.d.ts",
+  "types": "fastify-url-data.d.ts",
   "scripts": {
     "test": "npm run test-ts && tap 'test/**/*.test.js'",
     "test-ci": "tap --cov 'test/**/*.test.js' && npm run test-ts",
-    "test-ts": "tsd-check",
+    "test-ts": "tsd",
     "lint": "standard | snazzy",
     "lint-ci": "standard"
   },
@@ -30,23 +30,18 @@
   "homepage": "https://github.com/fastify/fastify-url-data#readme",
   "devDependencies": {
     "@types/node": "^12.0.2",
-    "fastify": "^2.0.0",
+    "fastify": "^3.0.0-alpha.1",
     "h2url": "^0.2.0",
     "pre-commit": "^1.2.2",
     "semver": "^6.3.0",
     "snazzy": "^8.0.0",
     "standard": "^14.0.2",
     "tap": "^12.6.6",
-    "tsd-check": "~0.3.0",
+    "tsd": "~0.11.0",
     "typescript": "~3.0.3"
   },
   "dependencies": {
-    "fastify-plugin": "^1.0.1",
+    "fastify-plugin": "^2.0.0",
     "uri-js": "^4.2.1"
-  },
-  "greenkeeper": {
-    "ignore": [
-      "tap"
-    ]
   }
 }

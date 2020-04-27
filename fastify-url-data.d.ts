@@ -1,17 +1,16 @@
-import { FastifyRequest } from 'fastify';
+import { FastifyPlugin } from 'fastify';
 import { URIComponents } from 'uri-js'
 
-// Extend FastifyReply with the "fastify-url-data" function
+// Extend FastifyRequest with the "fastify-url-data" function
 declare module 'fastify' {
-  interface FastifyRequest<HttpRequest> {
-    urlData (): URIComponents
-    urlData <K extends keyof URIComponents>(target: K): URIComponents[K]
+  interface FastifyRequestInterface {
+    urlData(): URIComponents
+    urlData<K extends keyof URIComponents>(target: K): URIComponents[K]
   }
 }
 
-// Factory function definition for fastify-url-data
-declare function urlData (): void
+interface UrlDataPluginOptions {}
 
-declare namespace urlData {}
+declare const urlData: FastifyPlugin<UrlDataPluginOptions>
 
-export = urlData;
+export default urlData
