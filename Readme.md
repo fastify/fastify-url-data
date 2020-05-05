@@ -1,7 +1,5 @@
 # fastify-url-data
 
-[![Greenkeeper badge](https://badges.greenkeeper.io/fastify/fastify-url-data.svg)](https://greenkeeper.io/)
-
 A plugin for [Fastify](https://fastify.io/) that adds support for getting raw
 URL information from the request.
 
