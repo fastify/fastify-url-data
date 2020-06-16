@@ -3,7 +3,7 @@ import { URIComponents } from 'uri-js'
 
 // Extend FastifyRequest with the "fastify-url-data" function
 declare module 'fastify' {
-  interface FastifyRequestInterface {
+  interface FastifyRequest {
     urlData(): URIComponents
     urlData<K extends keyof URIComponents>(target: K): URIComponents[K]
   }
