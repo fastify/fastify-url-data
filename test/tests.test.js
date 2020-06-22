@@ -8,7 +8,7 @@ const Fastify = require('fastify')
 const plugin = require('../')
 const semver = require('semver')
 
-const urlHost = '127.0.0.1'
+const urlHost = 'localhost'
 const urlPath = '/one'
 const urlQuery = 'a=b&c=d'
 
