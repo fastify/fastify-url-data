@@ -98,3 +98,16 @@ test('parses a full URI in HTTP2', { skip: semver.lt(process.versions.node, '8.8
 
   t.tearDown(() => fastify.close())
 })
+
+test('can register plugin multiple times without throwing an error', (t) => {
+  t.plan(1)
+  const fastify = Fastify()
+
+  t.doesNotThrow(() => {
+    fastify
+      .register(plugin)
+      .register(plugin)
+  }, 'Does not throw "FastifyError: The decorator \'urlData\' has already been added!"')
+
+  t.tearDown(() => fastify.close())
+})
