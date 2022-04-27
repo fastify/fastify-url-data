@@ -1,6 +1,6 @@
 {
-  "name": "fastify-url-data",
-  "version": "3.0.3",
+  "name": "@fastify/url-data",
+  "version": "4.0.0",
   "description": "A Fastify plugin to provide access to URI components",
   "main": "plugin.js",
   "types": "fastify-url-data.d.ts",
@@ -42,5 +42,8 @@
   "dependencies": {
     "fastify-plugin": "^3.0.0",
     "uri-js": "^4.2.1"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
