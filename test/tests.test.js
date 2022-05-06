@@ -36,7 +36,7 @@ test('parses a full URI', (t) => {
     reply.send()
   })
 
-  fastify.listen(0, (err) => {
+  fastify.listen({ port: 0 }, (err) => {
     fastify.server.unref()
     if (err) t.threw(err)
 
@@ -88,7 +88,7 @@ test('parses a full URI in HTTP2', { skip: semver.lt(process.versions.node, '8.8
     reply.send()
   })
 
-  fastify.listen(0, (err) => {
+  fastify.listen({ port: 0 }, (err) => {
     fastify.server.unref()
     if (err) t.threw(err)
 
