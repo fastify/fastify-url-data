@@ -11,7 +11,8 @@ const semver = require('semver')
 const urlHost = 'localhost'
 const urlPath = '/one'
 const urlQuery = 'a=b&c=d'
-const scheme = 'http'
+const httpScheme = 'http'
+const httpsScheme = 'https'
 
 test('parses a full URI', (t) => {
   t.plan(10)
@@ -30,12 +31,12 @@ test('parses a full URI', (t) => {
     t.equal(uriData.port, port)
     t.equal(uriData.path, urlPath)
     t.equal(uriData.query, urlQuery)
-    t.equal(uriData.scheme, scheme)
+    t.equal(uriData.scheme, httpScheme)
     t.equal(req.urlData('host'), urlHost)
     t.equal(req.urlData('port'), port)
     t.equal(req.urlData('path'), urlPath)
     t.equal(req.urlData('query'), urlQuery)
-    t.equal(req.urlData('scheme'), scheme)
+    t.equal(req.urlData('scheme'), httpScheme)
     reply.send()
   })
 
@@ -53,7 +54,7 @@ test('parses a full URI', (t) => {
 })
 
 test('parses a full URI in HTTP2', { skip: semver.lt(process.versions.node, '8.8.0') }, (t) => {
-  t.plan(9)
+  t.plan(11)
 
   const h2url = require('h2url')
 
@@ -84,10 +85,12 @@ test('parses a full URI in HTTP2', { skip: semver.lt(process.versions.node, '8.8
     t.equal(uriData.port, port)
     t.equal(uriData.path, urlPath)
     t.equal(uriData.query, urlQuery)
+    t.equal(uriData.scheme, httpsScheme)
     t.equal(req.urlData('host'), urlHost)
     t.equal(req.urlData('port'), port)
     t.equal(req.urlData('path'), urlPath)
     t.equal(req.urlData('query'), urlQuery)
+    t.equal(req.urlData('scheme'), httpsScheme)
     reply.send()
   })
 
