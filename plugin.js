@@ -16,6 +16,6 @@ function plugin (fastify, options, next) {
 }
 
 module.exports = fp(plugin, {
-  fastify: '>= 3.0.0',
-  name: 'fastify-url-data'
+  fastify: '4.x',
+  name: '@fastify/url-data'
 })

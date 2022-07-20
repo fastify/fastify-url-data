@@ -14,7 +14,7 @@ const urlQuery = 'a=b&c=d'
 const scheme = 'http'
 
 test('parses a full URI', (t) => {
-  t.plan(9)
+  t.plan(10)
   let port
   const fastify = Fastify()
 
@@ -26,19 +26,20 @@ test('parses a full URI', (t) => {
 
   fastify.get(urlPath, (req, reply) => {
     const uriData = req.urlData()
-    t.is(uriData.host, urlHost)
-    t.is(uriData.port, port)
-    t.is(uriData.path, urlPath)
-    t.is(uriData.query, urlQuery)
-    t.is(req.urlData('host'), urlHost)
-    t.is(req.urlData('port'), port)
-    t.is(req.urlData('path'), urlPath)
-    t.is(req.urlData('query'), urlQuery)
-    t.is(req.urlData('scheme'), scheme)
+    t.equal(uriData.host, urlHost)
+    t.equal(uriData.port, port)
+    t.equal(uriData.path, urlPath)
+    t.equal(uriData.query, urlQuery)
+    t.equal(uriData.scheme, scheme)
+    t.equal(req.urlData('host'), urlHost)
+    t.equal(req.urlData('port'), port)
+    t.equal(req.urlData('path'), urlPath)
+    t.equal(req.urlData('query'), urlQuery)
+    t.equal(req.urlData('scheme'), scheme)
     reply.send()
   })
 
-  fastify.listen(0, (err) => {
+  fastify.listen({ port: 0 }, (err) => {
     fastify.server.unref()
     if (err) t.threw(err)
 
@@ -48,7 +49,7 @@ test('parses a full URI', (t) => {
       .on('error', t.threw)
   })
 
-  t.tearDown(() => fastify.close())
+  t.teardown(() => fastify.close())
 })
 
 test('parses a full URI in HTTP2', { skip: semver.lt(process.versions.node, '8.8.0') }, (t) => {
@@ -79,18 +80,18 @@ test('parses a full URI in HTTP2', { skip: semver.lt(process.versions.node, '8.8
 
   fastify.get(urlPath, (req, reply) => {
     const uriData = req.urlData()
-    t.is(uriData.host, urlHost)
-    t.is(uriData.port, port)
-    t.is(uriData.path, urlPath)
-    t.is(uriData.query, urlQuery)
-    t.is(req.urlData('host'), urlHost)
-    t.is(req.urlData('port'), port)
-    t.is(req.urlData('path'), urlPath)
-    t.is(req.urlData('query'), urlQuery)
+    t.equal(uriData.host, urlHost)
+    t.equal(uriData.port, port)
+    t.equal(uriData.path, urlPath)
+    t.equal(uriData.query, urlQuery)
+    t.equal(req.urlData('host'), urlHost)
+    t.equal(req.urlData('port'), port)
+    t.equal(req.urlData('path'), urlPath)
+    t.equal(req.urlData('query'), urlQuery)
     reply.send()
   })
 
-  fastify.listen(0, (err) => {
+  fastify.listen({ port: 0 }, (err) => {
     fastify.server.unref()
     if (err) t.threw(err)
 
@@ -98,5 +99,5 @@ test('parses a full URI in HTTP2', { skip: semver.lt(process.versions.node, '8.8
     h2url.concat({ url: `https://${urlHost}:${port}${urlPath}?${urlQuery}#foo` }).then(() => {})
   })
 
-  t.tearDown(() => fastify.close())
+  t.teardown(() => fastify.close())
 })
