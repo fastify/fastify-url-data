@@ -11,9 +11,10 @@ const semver = require('semver')
 const urlHost = 'localhost'
 const urlPath = '/one'
 const urlQuery = 'a=b&c=d'
+const scheme = 'http'
 
 test('parses a full URI', (t) => {
-  t.plan(8)
+  t.plan(9)
   let port
   const fastify = Fastify()
 
@@ -33,6 +34,7 @@ test('parses a full URI', (t) => {
     t.is(req.urlData('port'), port)
     t.is(req.urlData('path'), urlPath)
     t.is(req.urlData('query'), urlQuery)
+    t.is(req.urlData('scheme'), scheme)
     reply.send()
   })
 
