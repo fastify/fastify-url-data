@@ -19,7 +19,7 @@ server.get('/data', (req, reply) => {
   reply.send({msg: 'ok'})
 })
 
-server.listen(3030)
+server.listen({ port: 3030 })
 
 server.inject({
   method: 'GET',
