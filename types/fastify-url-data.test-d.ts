@@ -1,6 +1,6 @@
 import fastify from 'fastify'
 import { expectType } from 'tsd'
-import urlData from './'
+import urlData from '..'
 
 const server = fastify();
 

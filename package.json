@@ -3,7 +3,7 @@
   "version": "5.1.0",
   "description": "A Fastify plugin to provide access to URI components",
   "main": "plugin.js",
-  "types": "fastify-url-data.d.ts",
+  "types": "types/fastify-url-data.d.ts",
   "scripts": {
     "lint": "standard | snazzy",
     "test": "npm run test:unit && npm run test:typescript",
