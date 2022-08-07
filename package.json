@@ -6,9 +6,9 @@
   "types": "fastify-url-data.d.ts",
   "scripts": {
     "lint": "standard | snazzy",
-    "lint:ci": "standard",
-    "test": "npm run test:ts && tap \"test/**/*.test.js\"",
-    "test:ts": "tsd"
+    "test": "npm run test:unit && npm run test:typescript",
+    "test:unit": "tap",
+    "test:typescript": "tsd"
   },
   "precommit": [
     "lint",
