@@ -1,6 +1,8 @@
 import { FastifyPluginCallback } from 'fastify';
 import { URIComponents } from 'uri-js'
 
+type FastifyUrlData = FastifyPluginCallback
+
 declare module 'fastify' {
   interface FastifyRequest {
     urlData<K extends keyof URIComponents>(target: K): URIComponents[K]
@@ -8,8 +10,10 @@ declare module 'fastify' {
   }
 }
 
-interface UrlDataPluginOptions {}
+declare namespace fastifyUrlData {
+  export const fastifyUrlData: FastifyUrlData
+  export { fastifyUrlData as default }
+}
 
-declare const urlData: FastifyPluginCallback<UrlDataPluginOptions>
-
-export default urlData
+declare function fastifyUrlData(...params: Parameters<FastifyUrlData>): ReturnType<FastifyUrlData>
+export = fastifyUrlData
