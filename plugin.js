@@ -3,7 +3,7 @@
 const fp = require('fastify-plugin')
 const urijs = require('uri-js')
 
-function plugin (fastify, options, next) {
+function fastifyUrlData (fastify, options, next) {
   fastify.decorateRequest('urlData', function (key) {
     const scheme = this.headers[':scheme'] ? this.headers[':scheme'] : this.protocol
     const host = this.headers[':authority'] || this.headers.host
@@ -15,7 +15,9 @@ function plugin (fastify, options, next) {
   next()
 }
 
-module.exports = fp(plugin, {
+module.exports = fp(fastifyUrlData, {
   fastify: '4.x',
   name: '@fastify/url-data'
 })
+module.exports.default = fastifyUrlData
+module.exports.fastifyUrlData = fastifyUrlData
