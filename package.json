@@ -39,8 +39,8 @@
     "tsd": "~0.25.0"
   },
   "dependencies": {
-    "fastify-plugin": "^4.0.0",
-    "uri-js": "^4.2.1"
+    "fast-uri": "^2.2.0",
+    "fastify-plugin": "^4.0.0"
   },
   "publishConfig": {
     "access": "public"
