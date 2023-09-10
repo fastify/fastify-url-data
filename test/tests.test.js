@@ -1,8 +1,8 @@
 'use strict'
 
-const fs = require('fs')
-const join = require('path').join
-const http = require('http')
+const fs = require('node:fs')
+const join = require('node:path').join
+const http = require('node:http')
 const test = require('tap').test
 const Fastify = require('fastify')
 const plugin = require('../')
