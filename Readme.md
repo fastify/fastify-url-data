@@ -4,7 +4,7 @@
 [![NPM version](https://img.shields.io/npm/v/@fastify/url-data.svg?style=flat)](https://www.npmjs.com/package/@fastify/url-data)
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat)](https://standardjs.com/)
 
-A plugin for [Fastify](https://fastify.io/) that adds support for getting raw
+A plugin for [Fastify](https://fastify.dev/) that adds support for getting raw
 URL information from the request.
 
 ## Example
