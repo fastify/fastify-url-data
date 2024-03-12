@@ -1,12 +1,11 @@
 import { FastifyPluginCallback } from 'fastify';
-import { URIComponent } from 'fast-uri'
 
 type FastifyUrlData = FastifyPluginCallback
 
 declare module 'fastify' {
   interface FastifyRequest {
-    urlData<K extends keyof URIComponent>(target: K): URIComponent[K]
-    urlData(): URIComponent
+    urlData<K extends keyof URL>(target: K): URL[K]
+    urlData(): URL
   }
 }
 
