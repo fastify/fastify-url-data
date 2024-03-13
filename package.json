@@ -40,7 +40,6 @@
     "tsd": "~0.30.0"
   },
   "dependencies": {
-    "fast-uri": "^2.2.0",
     "fastify-plugin": "^4.0.0"
   },
   "publishConfig": {
