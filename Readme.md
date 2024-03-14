@@ -16,13 +16,13 @@ fastify.register(require('@fastify/url-data'))
 
 fastify.get('/foo', (req, reply) => {
   const urlData = req.urlData()
-  req.log.info(urlData.path) // '/foo'
-  req.log.info(urlData.query) // 'a=b&c=d'
-  req.log.info(urlData.host) // '127.0.0.1'
+  req.log.info(urlData.pathname) // '/foo'
+  req.log.info(urlData.search) // '?a=b&c=d'
+  req.log.info(urlData.hostname) // '127.0.0.1'
   req.log.info(urlData.port) // 8080
 
   // if you just need single data:
-  req.log.info(req.urlData('path')) // '/foo'
+  req.log.info(req.urlData('pathname')) // '/foo'
 
   reply.send({hello: 'world'})
 })
