@@ -29,19 +29,19 @@
   },
   "homepage": "https://github.com/fastify/fastify-url-data#readme",
   "devDependencies": {
-    "@fastify/pre-commit": "^2.0.2",
-    "@types/node": "^20.1.0",
-    "fastify": "^4.0.0-rc.2",
+    "@fastify/pre-commit": "^2.1.0",
+    "@types/node": "^20.11.6",
+    "fastify": "^5.0.0-alpha.3",
     "h2url": "^0.2.0",
-    "semver": "^7.3.2",
+    "semver": "^7.5.4",
     "snazzy": "^9.0.0",
-    "standard": "^17.0.0",
-    "tap": "^16.0.0",
+    "standard": "^17.1.0",
+    "tap": "^18.6.1",
     "tsd": "~0.31.0"
   },
   "dependencies": {
     "fast-uri": "^3.0.0",
-    "fastify-plugin": "^4.0.0"
+    "fastify-plugin": "^4.5.1"
   },
   "publishConfig": {
     "access": "public"
