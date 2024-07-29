@@ -30,7 +30,7 @@
   "homepage": "https://github.com/fastify/fastify-url-data#readme",
   "devDependencies": {
     "@fastify/pre-commit": "^2.1.0",
-    "@types/node": "^20.11.6",
+    "@types/node": "^22.0.0",
     "fastify": "^5.0.0-alpha.3",
     "h2url": "^0.2.0",
     "semver": "^7.5.4",
