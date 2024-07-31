@@ -17,7 +17,7 @@ function fastifyUrlData (fastify, options, next) {
 }
 
 module.exports = fp(fastifyUrlData, {
-  fastify: '4.x',
+  fastify: '5.x',
   name: '@fastify/url-data'
 })
 module.exports.default = fastifyUrlData
