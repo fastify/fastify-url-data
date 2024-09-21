@@ -1,6 +1,6 @@
 {
   "name": "@fastify/url-data",
-  "version": "6.0.0",
+  "version": "6.0.1",
   "description": "A Fastify plugin to provide access to URI components",
   "main": "plugin.js",
   "type": "commonjs",
