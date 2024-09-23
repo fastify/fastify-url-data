@@ -183,3 +183,19 @@ test('parses a full URI ignoring X-Forwarded-Host when trustProxy is not set', (
 
   t.teardown(() => fastify.close())
 })
+
+test('should parse path without a port specified', async (t) => {
+  t.plan(2)
+  const fastify = Fastify()
+  fastify
+    .register(plugin)
+
+  fastify.get('/', (req, reply) => {
+    const path = req.urlData('path')
+    reply.send('That worked, path is ' + path)
+  })
+
+  const res = await fastify.inject({ url: '/', headers: { host: 'localhost' } })
+  t.equal(res.statusCode, 200)
+  t.equal(res.body, 'That worked, path is /')
+})
