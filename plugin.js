@@ -9,7 +9,7 @@ function fastifyUrlData (fastify, options, next) {
     const host = this.hostname
     const port = this.port
     const path = this.headers[':path'] || this.raw.url
-    const urlData = parse(`${scheme}://${host}:${port}${path}`)
+    const urlData = parse(`${scheme}://${host}${port ? ':' + port : ''}${path}`)
     if (key) return urlData[key]
     return urlData
   })
