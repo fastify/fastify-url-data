@@ -1,4 +1,4 @@
-import { FastifyPluginCallback } from 'fastify';
+import { FastifyPluginCallback } from 'fastify'
 import { URIComponent } from 'fast-uri'
 
 type FastifyUrlData = FastifyPluginCallback
@@ -15,5 +15,5 @@ declare namespace fastifyUrlData {
   export { fastifyUrlData as default }
 }
 
-declare function fastifyUrlData(...params: Parameters<FastifyUrlData>): ReturnType<FastifyUrlData>
+declare function fastifyUrlData (...params: Parameters<FastifyUrlData>): ReturnType<FastifyUrlData>
 export = fastifyUrlData
