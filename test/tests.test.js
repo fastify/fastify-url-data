@@ -2,11 +2,9 @@
 
 const fs = require('node:fs')
 const join = require('node:path').join
-const http = require('node:http')
-const test = require('tap').test
+const { test } = require('node:test')
 const Fastify = require('fastify')
-const plugin = require('../')
-const semver = require('semver')
+const plugin = require('..')
 
 const urlHost = 'localhost'
 const urlForwardedHost = 'example.com'
@@ -15,173 +13,149 @@ const urlQuery = 'a=b&c=d'
 const httpScheme = 'http'
 const httpsScheme = 'https'
 
-test('parses a full URI', (t) => {
-  t.plan(10)
-  let port
+test('parses a full URI', async (t) => {
+  t.plan(11)
   const fastify = Fastify()
 
   fastify
     .register(plugin)
     .after((err) => {
-      if (err) t.error(err)
+      t.assert.ifError(err)
     })
 
   fastify.get(urlPath, (req, reply) => {
     const uriData = req.urlData()
-    t.equal(uriData.host, urlHost)
-    t.equal(uriData.port, port)
-    t.equal(uriData.path, urlPath)
-    t.equal(uriData.query, urlQuery)
-    t.equal(uriData.scheme, httpScheme)
-    t.equal(req.urlData('host'), urlHost)
-    t.equal(req.urlData('port'), port)
-    t.equal(req.urlData('path'), urlPath)
-    t.equal(req.urlData('query'), urlQuery)
-    t.equal(req.urlData('scheme'), httpScheme)
+    t.assert.deepStrictEqual(uriData.host, urlHost)
+    t.assert.deepStrictEqual(uriData.port, port)
+    t.assert.deepStrictEqual(uriData.path, urlPath)
+    t.assert.deepStrictEqual(uriData.query, urlQuery)
+    t.assert.deepStrictEqual(uriData.scheme, httpScheme)
+    t.assert.deepStrictEqual(req.urlData('host'), urlHost)
+    t.assert.deepStrictEqual(req.urlData('port'), port)
+    t.assert.deepStrictEqual(req.urlData('path'), urlPath)
+    t.assert.deepStrictEqual(req.urlData('query'), urlQuery)
+    t.assert.deepStrictEqual(req.urlData('scheme'), httpScheme)
     reply.send()
   })
 
-  fastify.listen({ port: 0 }, (err) => {
-    fastify.server.unref()
-    if (err) t.threw(err)
+  await fastify.listen({ port: 0 })
+  const port = fastify.server.address().port
+  fastify.server.unref()
 
-    port = fastify.server.address().port
-    http
-      .get(`http://${urlHost}:${port}${urlPath}?${urlQuery}#foo`, () => {})
-      .on('error', t.threw)
-  })
+  await fetch(`http://${urlHost}:${port}${urlPath}?${urlQuery}#foo`)
 
-  t.teardown(() => fastify.close())
+  t.after(() => fastify.close())
 })
 
-test('parses a full URI in HTTP2', { skip: semver.lt(process.versions.node, '8.8.0') }, (t) => {
+test('parses a full URI in HTTP2', async (t) => {
   t.plan(11)
 
   const h2url = require('h2url')
 
-  let port
-  let fastify
-  try {
-    fastify = Fastify({
-      http2: true,
-      https: {
-        key: fs.readFileSync(join(__dirname, 'https', 'fastify.key')),
-        cert: fs.readFileSync(join(__dirname, 'https', 'fastify.cert'))
-      }
-    })
-    t.pass('Key/cert successfully loaded')
-  } catch (e) {
-    t.fail('Key/cert loading failed', e)
-  }
+  const fastify = Fastify({
+    http2: true,
+    https: {
+      key: fs.readFileSync(join(__dirname, 'https', 'fastify.key')),
+      cert: fs.readFileSync(join(__dirname, 'https', 'fastify.cert'))
+    }
+  })
 
   fastify
     .register(plugin)
     .after((err) => {
-      if (err) t.error(err)
+      t.assert.ifError(err)
     })
 
   fastify.get(urlPath, (req, reply) => {
     const uriData = req.urlData()
-    t.equal(uriData.host, urlHost)
-    t.equal(uriData.port, port)
-    t.equal(uriData.path, urlPath)
-    t.equal(uriData.query, urlQuery)
-    t.equal(uriData.scheme, httpsScheme)
-    t.equal(req.urlData('host'), urlHost)
-    t.equal(req.urlData('port'), port)
-    t.equal(req.urlData('path'), urlPath)
-    t.equal(req.urlData('query'), urlQuery)
-    t.equal(req.urlData('scheme'), httpsScheme)
+    t.assert.deepStrictEqual(uriData.host, urlHost)
+    t.assert.deepStrictEqual(uriData.port, port)
+    t.assert.deepStrictEqual(uriData.path, urlPath)
+    t.assert.deepStrictEqual(uriData.query, urlQuery)
+    t.assert.deepStrictEqual(uriData.scheme, httpsScheme)
+    t.assert.deepStrictEqual(req.urlData('host'), urlHost)
+    t.assert.deepStrictEqual(req.urlData('port'), port)
+    t.assert.deepStrictEqual(req.urlData('path'), urlPath)
+    t.assert.deepStrictEqual(req.urlData('query'), urlQuery)
+    t.assert.deepStrictEqual(req.urlData('scheme'), httpsScheme)
     reply.send()
   })
 
-  fastify.listen({ port: 0 }, (err) => {
-    fastify.server.unref()
-    if (err) t.threw(err)
+  await fastify.listen({ port: 0 })
+  const port = fastify.server.address().port
+  fastify.server.unref()
 
-    port = fastify.server.address().port
-    h2url.concat({ url: `https://${urlHost}:${port}${urlPath}?${urlQuery}#foo` }).then(() => {})
-  })
+  await h2url.concat({ url: `https://${urlHost}:${port}${urlPath}?${urlQuery}#foo` })
 
-  t.teardown(() => fastify.close())
+  t.after(() => fastify.close())
 })
 
-test('parses a full URI using X-Forwarded-Host when trustProxy is set', (t) => {
-  t.plan(10)
-  let port
+test('parses a full URI using X-Forwarded-Host when trustProxy is set', async (t) => {
+  t.plan(11)
   const fastify = Fastify({ trustProxy: true }) // Setting trustProxy true will use X-Forwarded-Host header if set
 
   fastify
     .register(plugin)
     .after((err) => {
-      if (err) t.error(err)
+      t.assert.ifError(err)
     })
 
   fastify.get(urlPath, (req, reply) => {
     const uriData = req.urlData()
-    t.equal(uriData.host, urlForwardedHost)
-    t.equal(uriData.port, port)
-    t.equal(uriData.path, urlPath)
-    t.equal(uriData.query, urlQuery)
-    t.equal(uriData.scheme, httpScheme)
-    t.equal(req.urlData('host'), urlForwardedHost)
-    t.equal(req.urlData('port'), port)
-    t.equal(req.urlData('path'), urlPath)
-    t.equal(req.urlData('query'), urlQuery)
-    t.equal(req.urlData('scheme'), httpScheme)
+    t.assert.deepStrictEqual(uriData.host, urlForwardedHost)
+    t.assert.deepStrictEqual(uriData.port, port)
+    t.assert.deepStrictEqual(uriData.path, urlPath)
+    t.assert.deepStrictEqual(uriData.query, urlQuery)
+    t.assert.deepStrictEqual(uriData.scheme, httpScheme)
+    t.assert.deepStrictEqual(req.urlData('host'), urlForwardedHost)
+    t.assert.deepStrictEqual(req.urlData('port'), port)
+    t.assert.deepStrictEqual(req.urlData('path'), urlPath)
+    t.assert.deepStrictEqual(req.urlData('query'), urlQuery)
+    t.assert.deepStrictEqual(req.urlData('scheme'), httpScheme)
     reply.send()
   })
 
-  fastify.listen({ port: 0 }, (err) => {
-    fastify.server.unref()
-    if (err) t.threw(err)
+  await fastify.listen({ port: 0 })
+  const port = fastify.server.address().port
+  fastify.server.unref()
 
-    port = fastify.server.address().port
-    http
-      .get(`http://${urlHost}:${port}${urlPath}?${urlQuery}#foo`, { headers: { 'X-Forwarded-Host': `${urlForwardedHost}:${port}` } }, () => {})
-      .on('error', t.threw)
-  })
+  await fetch(`http://${urlHost}:${fastify.server.address().port}${urlPath}?${urlQuery}#foo`, { headers: { 'X-Forwarded-Host': `${urlForwardedHost}:${port}` } })
 
-  t.teardown(() => fastify.close())
+  t.after(() => fastify.close())
 })
 
-test('parses a full URI ignoring X-Forwarded-Host when trustProxy is not set', (t) => {
-  t.plan(10)
-  let port
+test('parses a full URI ignoring X-Forwarded-Host when trustProxy is not set', async (t) => {
+  t.plan(11)
   const fastify = Fastify()
 
   fastify
     .register(plugin)
     .after((err) => {
-      if (err) t.error(err)
+      t.assert.ifError(err)
     })
 
   fastify.get(urlPath, (req, reply) => {
     const uriData = req.urlData()
-    t.equal(uriData.host, urlHost)
-    t.equal(uriData.port, port)
-    t.equal(uriData.path, urlPath)
-    t.equal(uriData.query, urlQuery)
-    t.equal(uriData.scheme, httpScheme)
-    t.equal(req.urlData('host'), urlHost)
-    t.equal(req.urlData('port'), port)
-    t.equal(req.urlData('path'), urlPath)
-    t.equal(req.urlData('query'), urlQuery)
-    t.equal(req.urlData('scheme'), httpScheme)
+    t.assert.deepStrictEqual(uriData.host, urlHost)
+    t.assert.deepStrictEqual(uriData.port, port)
+    t.assert.deepStrictEqual(uriData.path, urlPath)
+    t.assert.deepStrictEqual(uriData.query, urlQuery)
+    t.assert.deepStrictEqual(uriData.scheme, httpScheme)
+    t.assert.deepStrictEqual(req.urlData('host'), urlHost)
+    t.assert.deepStrictEqual(req.urlData('port'), port)
+    t.assert.deepStrictEqual(req.urlData('path'), urlPath)
+    t.assert.deepStrictEqual(req.urlData('query'), urlQuery)
+    t.assert.deepStrictEqual(req.urlData('scheme'), httpScheme)
     reply.send()
   })
 
-  fastify.listen({ port: 0 }, (err) => {
-    fastify.server.unref()
-    if (err) t.threw(err)
+  await fastify.listen({ port: 0 })
+  const port = fastify.server.address().port
+  fastify.server.unref()
 
-    port = fastify.server.address().port
-    http
-      .get(`http://${urlHost}:${port}${urlPath}?${urlQuery}#foo`, { headers: { 'X-Forwarded-Host': `${urlForwardedHost}:${port}` } }, () => {})
-      .on('error', t.threw)
-  })
+  await fetch(`http://${urlHost}:${fastify.server.address().port}${urlPath}?${urlQuery}#foo`, { headers: { 'X-Forwarded-Host': `${urlForwardedHost}:${port}` } })
 
-  t.teardown(() => fastify.close())
+  t.after(() => fastify.close())
 })
 
 test('should parse path without a port specified', async (t) => {
@@ -196,6 +170,6 @@ test('should parse path without a port specified', async (t) => {
   })
 
   const res = await fastify.inject({ url: '/', headers: { host: 'localhost' } })
-  t.equal(res.statusCode, 200)
-  t.equal(res.body, 'That worked, path is /')
+  t.assert.deepStrictEqual(res.statusCode, 200)
+  t.assert.deepStrictEqual(res.body, 'That worked, path is /')
 })
