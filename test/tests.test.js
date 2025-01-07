@@ -20,7 +20,7 @@ test('parses a full URI', async (t) => {
   fastify
     .register(plugin)
     .after((err) => {
-      t.assert.ok(!err)
+      t.assert.ifError(err)
     })
 
   fastify.get(urlPath, (req, reply) => {
@@ -63,7 +63,7 @@ test('parses a full URI in HTTP2', async (t) => {
   fastify
     .register(plugin)
     .after((err) => {
-      t.assert.ok(!err)
+      t.assert.ifError(err)
     })
 
   fastify.get(urlPath, (req, reply) => {
@@ -97,7 +97,7 @@ test('parses a full URI using X-Forwarded-Host when trustProxy is set', async (t
   fastify
     .register(plugin)
     .after((err) => {
-      t.assert.ok(!err)
+      t.assert.ifError(err)
     })
 
   fastify.get(urlPath, (req, reply) => {
@@ -131,7 +131,7 @@ test('parses a full URI ignoring X-Forwarded-Host when trustProxy is not set', a
   fastify
     .register(plugin)
     .after((err) => {
-      t.assert.ok(!err)
+      t.assert.ifError(err)
     })
 
   fastify.get(urlPath, (req, reply) => {
