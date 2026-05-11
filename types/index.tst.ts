@@ -1,6 +1,6 @@
 import fastify from 'fastify'
 import { expect } from 'tstyche'
-import urlData from '..'
+import urlData from '.'
 
 const server = fastify()
 
