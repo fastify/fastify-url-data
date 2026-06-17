@@ -64,8 +64,8 @@
     "tstyche": "^7.0.0"
   },
   "dependencies": {
-    "fast-uri": "^3.0.0",
-    "fastify-plugin": "^5.0.0"
+    "fast-uri": "^4.0.0",
+    "fastify-plugin": "^6.0.0"
   },
   "publishConfig": {
     "access": "public"
