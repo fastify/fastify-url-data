@@ -14,7 +14,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/fastify/fastify-url-data.git"
+    "url": "git+https://github.com/fastify/fastify-url-data.git"
   },
   "keywords": [
     "fastify"
