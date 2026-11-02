@@ -1,6 +1,7 @@
 'use strict'
 
 const fs = require('node:fs')
+const net = require('node:net')
 const join = require('node:path').join
 const { test } = require('node:test')
 const Fastify = require('fastify')
@@ -172,4 +173,40 @@ test('should parse path without a port specified', async (t) => {
   const res = await fastify.inject({ url: '/', headers: { host: 'localhost' } })
   t.assert.deepStrictEqual(res.statusCode, 200)
   t.assert.deepStrictEqual(res.body, 'That worked, path is /')
+})
+
+test('parses an absolute-form request target', async (t) => {
+  t.plan(6)
+  const fastify = Fastify()
+  fastify
+    .register(plugin)
+
+  let uriData
+  fastify.get(urlPath, (req, reply) => {
+    uriData = req.urlData()
+    reply.send()
+  })
+
+  await fastify.listen({ port: 0 })
+  const port = fastify.server.address().port
+  fastify.server.unref()
+
+  const response = await new Promise((resolve, reject) => {
+    const socket = net.connect(port, urlHost, () => {
+      socket.end(`GET http://${urlHost}:${port}${urlPath}?${urlQuery} HTTP/1.1\r\nHost: ${urlHost}:${port}\r\nConnection: close\r\n\r\n`)
+    })
+    let data = ''
+    socket.on('data', (chunk) => { data += chunk })
+    socket.on('end', () => resolve(data))
+    socket.on('error', reject)
+  })
+
+  t.assert.ok(response.startsWith('HTTP/1.1 200'))
+  t.assert.deepStrictEqual(uriData.scheme, httpScheme)
+  t.assert.deepStrictEqual(uriData.host, urlHost)
+  t.assert.deepStrictEqual(uriData.port, port)
+  t.assert.deepStrictEqual(uriData.path, urlPath)
+  t.assert.deepStrictEqual(uriData.query, urlQuery)
+
+  t.after(() => fastify.close())
 })
